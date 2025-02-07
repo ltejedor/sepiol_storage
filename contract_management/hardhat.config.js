@@ -6,7 +6,7 @@ const PRIVATE_KEY = vars.get("PRIVATE_KEY");
 module.exports = {
   solidity: "0.8.28",
   networks: {
-    sepolia: {
+    arbitrum: {
       url: SEPOLIA_RPC_URL,
       accounts: [PRIVATE_KEY]
     }
