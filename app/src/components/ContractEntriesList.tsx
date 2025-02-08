@@ -1,0 +1,130 @@
+"use client";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import toast from "react-hot-toast";
+
+interface TransactionInfo {
+  hash: string;
+  blockNumber: number;
+  from: string;
+  method: 'registerClass' | 'registerInstance';
+  className?: string;
+  data?: string;
+  timestamp: number;
+  value: string;
+  fee: string;
+}
+
+export function ContractEntriesList() {
+  const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const rpcUrl = "https://sepolia-rollup.arbitrum.io/rpc";
+        const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+        const contractAddress = "0x2E3382B72484AC0b3db4847CB1267468671905f9";
+
+        // Contract ABI for input data decoding
+        const contractABI = [
+          "function registerClass(string memory className)",
+          "function registerInstance(string memory className, string memory data)"
+        ];
+        const contractInterface = new ethers.utils.Interface(contractABI);
+
+        // Get all transactions to the contract
+        const logs = await provider.getLogs({
+          address: contractAddress,
+          fromBlock: 0,
+          toBlock: "latest"
+        });
+
+        // Get unique transaction hashes
+        const txHashes = Array.from(new Set(logs.map(l => l.transactionHash)));
+
+        // Process last 10 transactions
+        const recentTxHashes = txHashes.slice(-10).reverse();
+        
+        const transactionsData = await Promise.all(
+          recentTxHashes.map(async (txHash) => {
+            const tx = await provider.getTransaction(txHash);
+            const receipt = await provider.getTransactionReceipt(txHash);
+            const block = await provider.getBlock(tx.blockNumber);
+            
+            // Decode input data
+            let method, className, data;
+            try {
+              const parsed = contractInterface.parseTransaction({ data: tx.data });
+              method = parsed.name;
+              if (method === 'registerClass') {
+                className = parsed.args.className;
+              } else if (method === 'registerInstance') {
+                className = parsed.args.className;
+                data = parsed.args.data;
+              }
+            } catch (e) {
+              return null; // Skip non-relevant transactions
+            }
+
+            return {
+              hash: txHash,
+              blockNumber: tx.blockNumber,
+              from: tx.from,
+              method: method as 'registerClass' | 'registerInstance',
+              className,
+              data,
+              timestamp: block.timestamp,
+              value: ethers.utils.formatEther(tx.value),
+              fee: ethers.utils.formatEther(receipt.gasUsed.mul(receipt.effectiveGasPrice))
+            };
+          })
+        );
+
+        setTransactions(transactionsData.filter(Boolean));
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+        toast.error("Failed to fetch transactions.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  // Age calculation function
+  const getAge = (timestamp: number) => {
+    const ageSeconds = Math.floor(Date.now() / 1000) - timestamp;
+    if (ageSeconds < 60) return `${ageSeconds} sec ago`;
+    if (ageSeconds < 3600) return `${Math.floor(ageSeconds/60)} min ago`;
+    if (ageSeconds < 86400) return `${Math.floor(ageSeconds/3600)} hrs ago`;
+    return `${Math.floor(ageSeconds/86400)} days ago`;
+  };
+
+  if (isLoading) {
+    return <div className="mt-8 text-center text-gray-600">Loading...</div>;
+  }
+
+  return (
+    <div className="mt-8">
+      <h3 className="mb-4 text-lg font-semibold">Contract Interactions</h3>
+      {transactions.length === 0 ? (
+        <p className="text-gray-600">No interactions found</p>
+      ) : (
+        <ul className="space-y-4">
+          {transactions.map((tx) => (
+            <li key={tx.hash} className="bg-gray-100 p-4 rounded-md shadow-sm">
+              <p><strong>Method:</strong> {tx.method}</p>
+              <p><strong>Class:</strong> {tx.className}</p>
+              {tx.data && <p><strong>Data:</strong> {tx.data}</p>}
+              <p><strong>From:</strong> {tx.from}</p>
+              <p><strong>Age:</strong> {getAge(tx.timestamp)}</p>
+              <p><strong>TX Hash:</strong> <span className="text-sm">{tx.hash}</span></p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}

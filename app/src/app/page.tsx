@@ -1,29 +1,29 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
+import { ContractEntriesList } from "@/components/ContractEntriesList";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const router = useRouter();
 
   const handleCreateClass = async () => {
-    // Ensure MetaMask is installed
     if (typeof window.ethereum === "undefined") {
-      alert("MetaMask is not installed. Please install MetaMask and try again.");
+      toast.error("MetaMask is not installed. Please install MetaMask and try again.");
       return;
     }
 
     try {
-      // Request account access via MetaMask.
       await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
-      // Check if we're on the Arbitrum Sepolia Testnet.
-      // (Replace 421611 with the actual chain ID if it differs.)
+      // Network check remains the same
       const expectedChainId = 421614;
       const network = await provider.getNetwork();
       if (network.chainId !== expectedChainId) {
+
+
         try {
           // Attempt to switch to the Arbitrum Sepolia Testnet.
           await window.ethereum.request({
@@ -50,53 +50,85 @@ export default function Home() {
               });
             } catch (addError) {
               console.error("Failed to add Arbitrum Sepolia network:", addError);
-              alert("Failed to add the Arbitrum Sepolia Testnet. Please add it manually in MetaMask.");
+              toast.error("Failed to add the Arbitrum Sepolia Testnet. Please add it manually in MetaMask.");
               return;
             }
           } else {
             console.error("Failed to switch network:", switchError);
-            alert("Please switch to the Arbitrum Sepolia Testnet in MetaMask.");
+            toast.error("Please switch to the Arbitrum Sepolia Testnet in MetaMask.");
             return;
           }
+
         }
       }
 
-      // Now that we are on the correct network, create the contract instance.
-      const contractAddress = "0xa090431c3D10D9b7d374Fd5B8dE7Bb0687DDBD52";
+      // Updated contract ABI
+      const contractAddress = "0x2E3382B72484AC0b3db4847CB1267468671905f9";
       const contractABI = [
-        "function registerClass(bytes32 classHash) external"
+        "function registerClass(string memory className) external",
+        "function registerInstance(string memory className, string memory data) external"
       ];
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      // Prompt the user for the new class name.
       const className = prompt("Enter the name for the new embodiment class:");
       if (!className) {
-        alert("A class name is required!");
+        toast.error("A class name is required!");
         return;
       }
 
-      // Convert the class name to a bytes32 value.
-      const classHash = ethers.utils.formatBytes32String(className);
-
-      // Call the registerClass function.
-      const tx = await contract.registerClass(classHash);
+      // Directly use string instead of bytes32 conversion
+      const tx = await contract.registerClass(className);
       console.log("Transaction sent:", tx.hash);
-      alert(`Transaction sent: ${tx.hash}\nWaiting for confirmation...`);
+      toast.loading(`Transaction sent: ${tx.hash}\nWaiting for confirmation...`);
 
-      // Wait for transaction confirmation.
       await tx.wait();
       console.log("Embodiment class registered successfully!");
-      alert("Embodiment class registered successfully!");
+      toast.success("Embodiment class registered successfully!");
+      
+      router.refresh();
     } catch (error) {
       console.error("Error creating embodiment class:", error);
-      alert("Error creating embodiment class. Please check the console for details.");
+      toast.error("Error creating embodiment class. Please check the console for details.");
+    }
+  };
+
+  // Add this new handler for instance registration
+  const handleRegisterInstance = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contractAddress = "0x2E3382B72484AC0b3db4847CB1267468671905f9";
+      const contractABI = [
+        "function registerInstance(string memory className, string memory data) external"
+      ];
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+      const className = prompt("Enter the class name for the new robot:");
+      if (!className) {
+        toast.error("Class name is required!");
+        return;
+      }
+
+      const data = prompt("Enter robot data (JSON or text):");
+      if (!data) {
+        toast.error("Robot data is required!");
+        return;
+      }
+
+      const tx = await contract.registerInstance(className, data);
+      await tx.wait();
+      toast.success("Robot registered successfully!");
+      router.refresh();
+    } catch (error) {
+      console.error("Error registering robot:", error);
+      toast.error("Error registering robot. Check console for details.");
     }
   };
 
   return (
     <main>
-      <div className="flex h-screen items-center justify-center">
-        <div className="max-w-sm rounded-lg bg-white p-8 text-center shadow-lg">
+      <div className="flex min-h-screen flex-col items-center justify-start p-8">
+        <div className="w-full max-w-sm rounded-lg bg-white p-8 text-center shadow-lg">
           <h2 className="mb-6 text-xl font-bold">Robot Management System</h2>
           <div className="space-y-4">
             <button
@@ -106,11 +138,13 @@ export default function Home() {
               Create a New Embodiment Class
             </button>
             <button
+              onClick={handleRegisterInstance}
               className="w-full rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700"
             >
               Register a New Robot
             </button>
           </div>
+          <ContractEntriesList />
         </div>
       </div>
     </main>
