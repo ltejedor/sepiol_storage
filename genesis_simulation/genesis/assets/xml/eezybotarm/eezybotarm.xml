@@ -1,0 +1,130 @@
+<mujoco model="eezybotarm">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  
+  <option cone="elliptic" impratio="10"/>
+  
+  <default>
+    <default class="eezyarm">
+      <material specular="0.5" shininess="0.25"/>
+      <joint frictionloss="0.1" armature="0.01"/>
+      <position kp="50" dampratio="1" forcerange="-25 25"/>
+      
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="1" material="orange"/>
+      </default>
+      
+      <default class="collision">
+        <geom type="box" group="3" material="black" solimp="2 1 0.01" solref="0.01 1"/>
+      </default>
+      
+      <default class="rotation">
+        <joint axis="0 0 1" range="-3.14 3.14"/>
+      </default>
+      
+      <default class="pitch">
+        <joint axis="1 0 0" range="-1.57 1.57"/>
+      </default>
+      
+      <default class="slide">
+        <joint type="slide" axis="0 0 1" range="0 0.05"/>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <!-- Materials -->
+    <material name="orange" rgba="1.0 0.331 0.0 1.0" specular="0.1" shininess="0.1"/>
+    <material name="black" rgba="0.1 0.1 0.1 1.0" specular="0.1" shininess="0.1"/>
+
+    <!-- Meshes -->
+    <mesh name="base_piece" file="EBA_01.00.001.obj"/>
+    <mesh name="vertical_arm" file="EBA_01.00.002_vertical_drive_arm.obj"/>
+    <mesh name="link" file="EBA_01.00.003_link.obj"/>
+    <mesh name="forward_arm" file="EBA_01.00.004_forward_drive_arm.obj"/>
+    <mesh name="horizontal_arm" file="EBA_01.00.005_horizontal_arm.obj"/>
+    <mesh name="claw_support" file="EBA_01.00.012_R01_claw_support.obj"/>
+    <mesh name="right_finger" file="EBA_01.00.013_R01_right_finger.obj"/>
+    <mesh name="left_finger" file="EBA_01.00.014_R01_left_finger.obj"/>
+    <mesh name="basement" file="EBA_01.00.010_basement.obj"/>
+    <mesh name="round_plate" file="EBA_01.00.011_round_plate.obj"/>
+  </asset>
+
+  <worldbody>
+    <!-- Base Structure -->
+    <body name="basement" childclass="eezyarm">
+      <geom type="mesh" mesh="basement" class="visual"/>
+      <geom type="box" size="0.05 0.05 0.02" pos="0 0 0.02" class="collision"/>
+      
+      <body name="round_plate" pos="0 0 0.04">
+        <geom type="mesh" mesh="round_plate" class="visual"/>
+        <geom type="cylinder" size="0.04 0.005" class="collision"/>
+        
+        <!-- Main Rotation Base -->
+        <body name="base_piece" pos="0 0 0.01">
+          <geom type="mesh" mesh="base_piece" class="visual"/>
+          <geom type="box" size="0.04 0.04 0.02" class="collision"/>
+          <joint name="base_rotation" class="rotation"/>
+
+          <!-- Vertical Arm Assembly -->
+          <body name="vertical_arm" pos="0.03 0 0.02">
+            <geom type="mesh" mesh="vertical_arm" class="visual"/>
+            <geom type="box" size="0.01 0.01 0.07" pos="0 0 0.04" class="collision"/>
+            <joint name="shoulder_pitch" class="pitch"/>
+            
+            <body name="link" pos="0 0 0.08">
+              <geom type="mesh" mesh="link" class="visual"/>
+              <geom type="box" size="0.01 0.01 0.03" class="collision"/>
+              <joint name="elbow_pitch" class="pitch"/>
+              
+              <body name="horizontal_arm" pos="0 0 0.04">
+                <geom type="mesh" mesh="horizontal_arm" class="visual"/>
+                <geom type="box" size="0.12 0.01 0.01" pos="0.06 0 0" class="collision"/>
+                <joint name="wrist_pitch" class="pitch"/>
+                
+                <!-- Gripper Assembly -->
+                <body name="claw_support" pos="0.12 0 0">
+                  <geom type="mesh" mesh="claw_support" class="visual"/>
+                  <geom type="box" size="0.02 0.02 0.02" class="collision"/>
+                  <joint name="wrist_roll" class="rotation"/>
+                  
+                  <!-- Fingers -->
+                  <body name="right_finger" pos="0.02 0 0">
+                    <geom type="mesh" mesh="right_finger" class="visual"/>
+                    <geom type="box" size="0.005 0.01 0.03" pos="0 0 0.015" class="collision"/>
+                    <joint name="gripper" class="slide"/>
+                  </body>
+                  
+                  <body name="left_finger" pos="-0.02 0 0">
+                    <geom type="mesh" mesh="left_finger" class="visual"/>
+                    <geom type="box" size="0.005 0.01 0.03" pos="0 0 0.015" class="collision"/>
+                    <joint name="gripper2" class="slide"/>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+
+          <!-- Forward Arm Assembly -->
+          <body name="forward_arm" pos="-0.03 0 0.02">
+            <geom type="mesh" mesh="forward_arm" class="visual"/>
+            <geom type="box" size="0.01 0.01 0.07" pos="0 0 0.04" class="collision"/>
+            <joint name="aux_pitch" class="pitch"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="base_rot" joint="base_rotation"/>
+    <position name="shoulder" joint="shoulder_pitch"/>
+    <position name="elbow" joint="elbow_pitch"/>
+    <position name="wrist_p" joint="wrist_pitch"/>
+    <position name="wrist_r" joint="wrist_roll"/>
+    <position name="gripper" joint="gripper" ctrlrange="-0.05 0.05"/>
+  </actuator>
+
+  <contact>
+    <exclude body1="basement" body2="base_piece"/>
+  </contact>
+</mujoco>

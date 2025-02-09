@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="EEZYbotARM_MK2">
+
+  <!-- Link Definitions -->
+  <link name="006_horarm_1">
+    <inertial>
+      <origin rpy="0.0 0.0 0.0" xyz="-0.04134701426427581 0.0075 0.222512351201859"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.2875e-17 0.07293846505771417 -7.7917e-16" xyz="-0.04134701426427581 0.0075 0.222512351201859"/>
+      <geometry>
+        <mesh filename="meshes/006_horarm_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/006_horarm_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="EBAmk2_02_1__001_base_1">
+    <inertial>
+      <origin rpy="1.5708 3.0531e-16 3.14159" xyz="1.00948e-14 -0.0095 -0.0425"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="3.14159 1.22465e-16 1.5708" xyz="-1.00357e-14 -0.0095 0.0685"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_02_1__MG946R_2.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.2627450980392157 0.2627450980392157 0.2627450980392157 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="-1.5708 1.5708 0.0" xyz="-2.67825e-34 -0.043 0.013"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_02_1__001_base_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="-2.43377e-33 -1.22465e-16 1.5708" xyz="1.00948e-14 -0.0095 -0.0425"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_02_1__MG946R_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.2627450980392157 0.2627450980392157 0.2627450980392157 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_02_1__001_base_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="009_trialinkfront_1">
+    <inertial>
+      <origin rpy="1.5708 1.93641e-16 -3.1362" xyz="-0.0549 -0.01335 -0.0027"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.5708 1.27055e-16 3.14159" xyz="-0.0453 -0.00945 -0.0087"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__014_clawbase_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8392156862745098 0.8392156862745098 0.8392156862745098 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="3.14159 -2.1825e-17 -2.9577e-16" xyz="-0.0538 -0.01775 3.5e-4"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__018_clawgeardriven_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8392156862745098 0.8392156862745098 0.8392156862745098 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="-1.5708 -1.5708 0.0" xyz="-0.0393 -0.0065 0.0"/>
+      <geometry>
+        <mesh filename="meshes/009_trialinkfront_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="8.73647e-17 9.47009e-19 3.14159" xyz="-0.0538 -0.01275 3.5e-4"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__017_clawfingersx_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="-3.14159 2.34986e-17 3.14159" xyz="-0.0538 -0.00975 -0.01775"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__015_clawfingerdx_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__Part_1_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="002_mainarm_1">
+    <inertial>
+      <origin rpy="1.5708 1.22465e-16 0.31128" xyz="-6.93889e-18 0.135 -0.00525"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="-1.5708 9.03056e-33 3.14159" xyz="-6.93889e-18 0.135 -0.00525"/>
+      <geometry>
+        <mesh filename="meshes/002_mainarm_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8392156862745098 0.8392156862745098 0.8392156862745098 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/002_mainarm_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="008_link_147_1">
+    <inertial>
+      <origin rpy="-1.5708 -1.95478e-16 -3.073" xyz="0.0735 0.0 0.0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0735 0.0 0.0"/>
+      <geometry>
+        <mesh filename="meshes/008_link_147_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/008_link_147_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="003_VArm_1">
+    <inertial>
+      <origin rpy="1.5708 4.31799e-15 -1.64373" xyz="1.38778e-17 -0.057 -0.005"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.83697e-16 1.5708" xyz="1.38778e-17 -0.057 -0.005"/>
+      <geometry>
+        <mesh filename="meshes/003_VArm_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8392156862745098 0.8392156862745098 0.8392156862745098 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/003_VArm_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="007_trialink_1">
+    <inertial>
+      <origin rpy="1.5708 6.56709e-16 0.110752" xyz="0.0 0.0 0.003"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.5708 -5.54668e-32 0.0" xyz="0.0 0.0 0.003"/>
+      <geometry>
+        <mesh filename="meshes/007_trialink_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/007_trialink_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="004_link_135_1">
+    <inertial>
+      <origin rpy="-1.5708 -1.1803e-14 1.25952" xyz="0.0675 -3.46945e-18 0.0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="3.14159 7.88861e-31 -5.55112e-17" xyz="0.0675 -3.46945e-18 0.0"/>
+      <geometry>
+        <mesh filename="meshes/004_link_135_1.obj"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/004_link_135_1.obj"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="EBAmk2_03_1__016_1">
+    <inertial>
+      <origin rpy="3.14159 -0.00539241 0.669058" xyz="-0.151703 -0.201779 -0.0042"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="-1.5708 -6.67869e-17 -0.00539241" xyz="-0.151703 -0.201779 -0.0042"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__016_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8392156862745098 0.8392156862745098 0.8392156862745098 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/EBAmk2_03_1__016_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="005_link_135angled_1">
+    <inertial>
+      <origin rpy="1.5708 1.92908e-16 -1.25956" xyz="0.0675 -2.60209e-18 -3.46945e-18"/>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="3.14159 -4.93038e-32 0.0" xyz="0.0675 -2.60209e-18 -3.46945e-18"/>
+      <geometry>
+        <mesh filename="meshes/005_link_135angled_1.stl"/>
+      </geometry>
+      <material name="material">
+        <color rgba="0.8431372549019608 0.8431372549019608 0.8431372549019608 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="meshes/005_link_135angled_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint Definitions (9 joints for a tree with 10 links) -->
+  <joint name="Cylindrical_3" type="continuous">
+    <origin rpy="-7.88702e-17 1.82847e-16 -2.83032" xyz="6.93889e-18 0.135 -0.0135"/>
+    <parent link="002_mainarm_1"/>
+    <child link="EBAmk2_02_1__001_base_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Revolute_4" type="revolute">
+    <origin rpy="-1.5708 -0.31128 1.22465e-16" xyz="-0.041347 0.0005 0.222512"/>
+    <parent link="006_horarm_1"/>
+    <child link="002_mainarm_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Cylindrical_4" type="continuous">
+    <origin rpy="-4.22896e-16 -5.84567e-16 0.200524" xyz="-2.42861e-17 2.77556e-17 -0.0215"/>
+    <parent link="002_mainarm_1"/>
+    <child link="007_trialink_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Revolute_6" type="revolute">
+    <origin rpy="6.31378e-16 -4.48168e-16 1.37032" xyz="-0.0355 -0.024264 -0.007"/>
+    <parent link="007_trialink_1"/>
+    <child link="005_link_135angled_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Revolute_8" type="revolute">
+    <origin rpy="1.5708 1.25952 -3.58709e-15" xyz="-0.098195 0.01745 0.226666"/>
+    <parent link="006_horarm_1"/>
+    <child link="004_link_135_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Cylindrical_2" type="continuous">
+    <origin rpy="-3.14159 5.71537e-15 -0.384215" xyz="0.135 -3.46945e-18 -5e-5"/>
+    <parent link="004_link_135_1"/>
+    <child link="003_VArm_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Revolute_3" type="revolute">
+    <origin rpy="1.5708 0.00539241 -3.14159" xyz="0.105262 0.0095 0.2118"/>
+    <parent link="006_horarm_1"/>
+    <child link="009_trialinkfront_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="Revolute_5" type="revolute">
+    <origin rpy="3.14159 1.04342e-17 0.0739849" xyz="-0.0328 0.0285 -0.022"/>
+    <parent link="009_trialinkfront_1"/>
+    <child link="008_link_147_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+  <joint name="EBAmk2_03" type="revolute">
+    <origin rpy="-1.5708 -0.669058 3.14159" xyz="-0.31585 -0.01675 -0.0728836"/>
+    <parent link="009_trialinkfront_1"/>
+    <child link="EBAmk2_03_1__016_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" lower="-1.79769e+308" upper="1.79769e+308" velocity="1.0"/>
+  </joint>
+
+</robot>
