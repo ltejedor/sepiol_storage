@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
-import { EMBODIMENT_REGISTRY_ADDRESS, ENTITY_REGISTRY_ADDRESS, ENTITY_REGISTRY_ABI, computeClassHash, checkClassExists } from "@/lib/contractConfig";
+import { EMBODIMENT_REGISTRY_ADDRESS, computeClassHash, checkClassExists } from "@/lib/contractConfig";
 import { switchToArbitrumSepolia } from "@/lib/switchNetwork";
 
 interface TransactionInfo {
@@ -26,45 +26,49 @@ export function ContractEntriesList() {
       toast.error("MetaMask is not installed");
       return;
     }
-
+  
     try {
       const provider = await switchToArbitrumSepolia();
       
-      // Check if the class exists before proceeding
+      // Check if the class exists before proceeding (assuming checkClassExists uses the correct contract)
       const exists = await checkClassExists(className, provider);
       if (!exists) {
         toast.error("This class does not exist. Please register it first.");
         return;
       }
-
+  
       const signer = provider.getSigner();
-
+  
       const data = prompt("Enter robot data (JSON or text):");
       if (!data) {
         toast.error("Robot data is required!");
         return;
       }
-
-      const classHash = computeClassHash(className);
-      const contract = new ethers.Contract(ENTITY_REGISTRY_ADDRESS, ENTITY_REGISTRY_ABI, signer);
-
+  
+      // Use the correct contract address and ABI
+      const contractABI = [
+        "function registerInstance(string calldata className, string calldata data) external"
+      ];
+      const contract = new ethers.Contract(EMBODIMENT_REGISTRY_ADDRESS, contractABI, signer);
+  
       const toastId = toast.loading("Registering robot...");
-      
-      // Add explicit gas limit to avoid estimation issues
-      const tx = await contract.registerEntity(classHash, data, {
-        gasLimit: 500000 // Set a reasonable gas limit
+  
+      // Call the correct function with the correct parameters
+      const tx = await contract.registerInstance(className, data, {
+        gasLimit: 500000 // Optional: add gas limit if needed
       });
       
       await tx.wait();
       toast.success("Robot registered successfully!", { id: toastId });
       
-      // Refresh the transactions list
+      // Refresh the transactions list if necessary
       fetchTransactions();
     } catch (error) {
       console.error("Error registering robot:", error);
       toast.error("Failed to register robot. Please check the console for details.");
     }
   };
+  
 
   const fetchTransactions = async () => {
     try {
@@ -167,14 +171,14 @@ export function ContractEntriesList() {
               <p><strong>From:</strong> {tx.from}</p>
               <p><strong>Age:</strong> {getAge(tx.timestamp)}</p>
               <p><strong>TX Hash:</strong> <span className="text-sm">{tx.hash}</span></p>
-              {/* {tx.method === 'registerClass' && tx.className && (
+              {tx.method === 'registerClass' && tx.className && (
                 <button
                   onClick={() => handleRegisterRobot(tx.className!)}
                   className="mt-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700"
                 >
                   Register Robot for this Class
                 </button>
-              )} */}
+              )} 
             </li>
           ))}
         </ul>
