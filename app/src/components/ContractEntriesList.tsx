@@ -4,6 +4,8 @@ import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { EMBODIMENT_REGISTRY_ADDRESS, computeClassHash, checkClassExists } from "@/lib/contractConfig";
 import { switchToArbitrumSepolia } from "@/lib/switchNetwork";
+import { Terminal } from 'lucide-react';
+
 
 interface TransactionInfo {
   hash: string;
@@ -153,32 +155,48 @@ export function ContractEntriesList() {
   };
 
   if (isLoading) {
-    return <div className="mt-8 text-center text-gray-600">Loading...</div>;
+    return (
+      <div className="p-4 text-center animate-pulse">
+        > ACCESSING BLOCKCHAIN DATA...
+      </div>
+    );
   }
 
   return (
-    <div className="mt-8">
-      <h3 className="mb-4 text-lg font-semibold">Contract Interactions</h3>
+    <div className="p-4">
+      <h3 className="mb-4 text-lg font-bold flex items-center gap-2">
+        <Terminal className="inline" /> REGISTERED EMBODIMENTS
+      </h3>
+      
       {transactions.length === 0 ? (
-        <p className="text-gray-600">No interactions found</p>
+        <p className="text-green-400/60">NO REGISTRATIONS FOUND IN DATABASE</p>
       ) : (
         <ul className="space-y-4">
           {transactions.map((tx) => (
-            <li key={tx.hash} className="bg-gray-100 p-4 rounded-md shadow-sm">
-              <p><strong>Method:</strong> {tx.method}</p>
-              <p><strong>Class:</strong> {tx.className}</p>
-              {tx.data && <p><strong>Data:</strong> {tx.data}</p>}
-              <p><strong>From:</strong> {tx.from}</p>
-              <p><strong>Age:</strong> {getAge(tx.timestamp)}</p>
-              <p><strong>TX Hash:</strong> <span className="text-sm">{tx.hash}</span></p>
+            <li key={tx.hash} className="border border-green-400/30 rounded-lg p-4 hover:bg-green-400/5">
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <p><span className="text-green-400/60">METHOD:</span> {tx.method}</p>
+                <p><span className="text-green-400/60">CLASS:</span> {tx.className}</p>
+                {tx.data && (
+                  <p className="col-span-2">
+                    <span className="text-green-400/60">DATA:</span> {tx.data}
+                  </p>
+                )}
+                <p><span className="text-green-400/60">FROM:</span> {tx.from}</p>
+                <p><span className="text-green-400/60">AGE:</span> {getAge(tx.timestamp)}</p>
+                <p className="col-span-2">
+                  <span className="text-green-400/60">TX:</span> {tx.hash}
+                </p>
+              </div>
+              
               {tx.method === 'registerClass' && tx.className && (
                 <button
-                  onClick={() => handleRegisterRobot(tx.className!)}
-                  className="mt-2 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700"
+                  onClick={() => handleRegisterRobot(tx.className)}
+                  className="mt-4 px-4 py-2 bg-green-400/10 border border-green-400 rounded hover:bg-green-400/20 transition-all w-full"
                 >
-                  Register Robot for this Class
+                  > REGISTER_NEW_ROBOT [{tx.className}]
                 </button>
-              )} 
+              )}
             </li>
           ))}
         </ul>
@@ -186,3 +204,5 @@ export function ContractEntriesList() {
     </div>
   );
 }
+
+export default ContractEntriesList;
