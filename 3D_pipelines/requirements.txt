@@ -1,1 +1,5 @@
+trimesh
 pyvista
+vtk
+numpy
+onshape-robotics-toolkit
