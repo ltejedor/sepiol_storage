@@ -81,7 +81,7 @@ def main():
     parser.add_argument(
         "--text",
         type=str,
-        default="0x4c2d6f8569aef610ed40fc3a97ad9257889146377eb4c18e925b5fa90231f0bb",
+        default="0x8872998397930cb597118479265cd9d219f78e75dbf510e8a227083cd64cf81f",
         help="The text to add to the model.",
     )
     parser.add_argument(
