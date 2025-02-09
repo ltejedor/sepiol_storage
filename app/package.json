@@ -50,6 +50,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@shadcn/ui": "^0.0.4",
     "@stylistic/eslint-plugin-js": "^2.7.2",
     "@tanstack/eslint-plugin-query": "^5.59.7",
     "@types/bcrypt": "^5.0.2",
