@@ -68,7 +68,7 @@ export function ContractEntriesList() {
       fetchTransactions();
     } catch (error) {
       console.error("Error registering robot:", error);
-      toast.error("Failed to register robot. Please check the console for details.");
+      toast.error("Failed to register robot. Please make sure your MetaMask wallet is connected.");
     }
   };
 
