@@ -284,6 +284,4 @@ The contract is verified on Arbitrum Sepolia Explorer and can be interacted with
 
 ## Hackathon Robot
 
-All the materials used to create and control the physical robot during this hackathon. 
-
-
+All the materials used to create and control the physical robot during this hackathon. We used the [EEZYbotARM model by theGHIZmo](https://www.instructables.com/EEZYbotARM/). 
