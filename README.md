@@ -1,6 +1,6 @@
 # Sepiol Storage
 
-## Sepiol Storage is git for agentic robots. 
+## git for robotic agents
 
 New embodiments can be registered, automatically converted into digital twins for simulation and training, and instances of specific embodiments can be added to the system, their virtual and physical representations paired. 
 
@@ -280,8 +280,3 @@ The contract is verified on Arbitrum Sepolia Explorer and can be interacted with
 - Each class can only be registered once
 - Instance registration requires the class to exist
 - All state changes emit appropriate events for tracking
-
-
-## Hackathon Robot
-
-All the materials used to create and control the physical robot during this hackathon. We used the [EEZYbotARM model by theGHIZmo](https://www.instructables.com/EEZYbotARM/). 
